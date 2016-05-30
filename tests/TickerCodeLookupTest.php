@@ -1,0 +1,58 @@
+<?php
+
+namespace MergemarketTest\Tests;
+
+use \Mockery as m;
+
+use MergemarketTest\TickerCodeLookup as TickerCodeLookup,
+        MergemarketTest\Data\TickerCode as TickerCode;
+
+/**
+ * Description of TickerCodeLookupTest
+ *
+ * @author jpd
+ */
+class TickerCodeLookupTest extends \PHPUnit_Framework_TestCase {
+
+  /** @var MergemarketTest\TickerCodeLookup */
+  protected $object;
+
+  public function setUp() {
+    parent::setUp();
+  }
+
+  public function tearDown() {
+    m::close();
+  }
+
+  public function testMongoDBEndPoint() {
+    $app = new Silex\Application();
+    $app['TickerCodeEndpoint'] = m::mock('MergemarketTest\EndPoint\MongoDB');
+    $this->object = new TickerCodeLookup($app);
+  }
+
+  /**
+   * @expectedException \Exception
+   */
+  public function testUnknownEndPoint() {
+    $app = new Silex\Application();
+    $app['TickerCodeEndpoint'] = new \stdClass();
+    $this->object = new TickerCodeLookup($app);
+  }
+
+  public function testGetList() {
+    $mongoDB = m::mock('MergemarketTest\EndPoint\MongoDB');
+    $mongoDB->shouldReceive('getList')->withNoArgs()->andReturn([
+        new TickerCode('test1', 'code1'),
+        new TickerCode('test2', 'code2')
+    ]);
+    $this->object = new TickerCodeLookup($mongoDB);
+    $result = $this->object->getList();
+    $this->assertTrue(is_array($result), 'Should have returned an array');
+    $this->assertNotEmpty($result, 'Should have results in it');
+    $this->assertEquals(count($result), 2, 'Should only have two results');
+    $this->assertEquals($result[0], new TickerCode('test1', 'code1'));
+    $this->assertEquals($result[1], new TickerCode('test2', 'code2'));
+  }
+
+}

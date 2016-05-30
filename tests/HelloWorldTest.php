@@ -2,22 +2,12 @@
 
 namespace MergemarketTest\Tests;
 
-use Silex\WebTestCase;
-
 /**
  * Description of HelloWorld
  *
  * @author jpd
  */
-class HelloWorldTest extends WebTestCase {
-
-  public function createApplication() {
-    $app = require __DIR__ . '/../web/app.php';
-    $app['debug'] = true;
-    unset($app['exception_handler']);
-
-    return $app;
-  }
+class HelloWorldTest extends MergerMarketWrapper {
 
   function testHelloWorld() {
     $client = $this->createClient();
