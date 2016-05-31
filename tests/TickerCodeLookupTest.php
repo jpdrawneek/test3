@@ -54,5 +54,17 @@ class TickerCodeLookupTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals($result[0], new TickerCode('test1', 'code1'));
     $this->assertEquals($result[1], new TickerCode('test2', 'code2'));
   }
+  
+  public function testGetByTicker() {
+    $mongoDB = m::mock('MergemarketTest\EndPoint\MongoDB');
+    $mongoDB->shouldReceive('getByTicker')->withArgs(['code1'])->once()->andReturn(
+        new TickerCode('test1', 'code1')
+    );
+    $this->object = new TickerCodeLookup($mongoDB);
+    $result = $this->object->getByTicker('code1');
+    $this->assertInstanceOf('\MergemarketTest\Data\TickerCode', $result, 'Should have returned a object of TickerCode');
+    $this->assertNotEmpty($result, 'Should have results in it');
+    $this->assertEquals($result, new TickerCode('test1', 'code1'));;
+  }
 
 }
