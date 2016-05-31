@@ -8,5 +8,22 @@ namespace MergemarketTest\Data;
  * @author jpd
  */
 class TickerCode {
-  //put your code here
+
+  protected $companyName;
+  protected $companyTicker;
+
+  public function __construct($companyName, $companyTicker) {
+    $this->companyName = $companyName;
+    $this->companyTicker = $companyTicker;
+  }
+
+  public function __get($name) {
+    return $this->$name;
+  }
+
+  public function __isset($name) {
+    
+    return isset($this->$name);
+  }
+
 }

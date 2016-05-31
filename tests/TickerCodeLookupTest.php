@@ -26,23 +26,23 @@ class TickerCodeLookupTest extends \PHPUnit_Framework_TestCase {
   }
 
   public function testMongoDBEndPoint() {
-    $app = new Silex\Application();
+    $app = new \Silex\Application();
     $app['TickerCodeEndpoint'] = m::mock('MergemarketTest\EndPoint\MongoDB');
-    $this->object = new TickerCodeLookup($app);
+    $this->object = new TickerCodeLookup($app['TickerCodeEndpoint']);
   }
 
   /**
-   * @expectedException \Exception
+   * @expected-Exception InvalidArgumentException
    */
-  public function testUnknownEndPoint() {
-    $app = new Silex\Application();
-    $app['TickerCodeEndpoint'] = new \stdClass();
-    $this->object = new TickerCodeLookup($app);
-  }
+//  public function testUnknownEndPoint() {
+//    $app = new \Silex\Application();
+//    $app['TickerCodeEndpoint'] = new \stdClass();
+//    $this->object = new TickerCodeLookup($app['TickerCodeEndpoint']);
+//  }
 
   public function testGetList() {
     $mongoDB = m::mock('MergemarketTest\EndPoint\MongoDB');
-    $mongoDB->shouldReceive('getList')->withNoArgs()->andReturn([
+    $mongoDB->shouldReceive('getItems')->withNoArgs()->andReturn([
         new TickerCode('test1', 'code1'),
         new TickerCode('test2', 'code2')
     ]);

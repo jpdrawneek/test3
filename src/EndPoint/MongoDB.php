@@ -31,7 +31,7 @@ class MongoDB implements TickerEndPoint {
   public function getItems() {
     $output = [];
     foreach ($this->collection->find() AS $data) {
-      $output[] = new TickerCode($data['company'], $data['TickerCode']);
+      $output[] = new TickerCode($data['name'], $data['tickerCode']);
     }
     return $output;
   }

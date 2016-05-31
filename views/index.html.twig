@@ -1,2 +1,8 @@
 {# empty Twig template #}
 <h1>Hello World</h1>
+
+<ul id="navigation">
+    {% for item in list %}
+        <li><a href="{{ item.companyTicker }}">{{ item.companyName }}</a></li>
+    {% endfor %}
+</ul>
