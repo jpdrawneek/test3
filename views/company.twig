@@ -1,0 +1,10 @@
+{# empty Twig template #}
+<h1>{{ details.name }}</h1>
+
+<h2>{{ details.symbol }} {{ details.price }}</h2>
+
+<ul>
+    {% for item in details.latestNews %}
+    <li>{{ item.headline }}<br />{{ item.body }}</li>
+    {% endfor %}
+</ul>

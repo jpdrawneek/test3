@@ -64,7 +64,7 @@ class TickerCodeLookupTest extends \PHPUnit_Framework_TestCase {
     $result = $this->object->getByTicker('code1');
     $this->assertInstanceOf('\MergemarketTest\Data\TickerCode', $result, 'Should have returned a object of TickerCode');
     $this->assertNotEmpty($result, 'Should have results in it');
-    $this->assertEquals($result, new TickerCode('test1', 'code1'));;
+    $this->assertEquals($result, new TickerCode('test1', 'code1'));
   }
 
 }
