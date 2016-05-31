@@ -28,11 +28,21 @@ class MongoDB implements TickerEndPoint {
   }
 
 
-  public function getItems() {
+  public function getItems($filter = []) {
     $output = [];
-    foreach ($this->collection->find() AS $data) {
+    foreach ($this->collection->find($filter) AS $data) {
       $output[] = new TickerCode($data['name'], $data['tickerCode']);
     }
+    return $output;
+  }
+  /**
+   * 
+   * @param String $ticker
+   * @return TickerCode
+   */
+  public function getByTicker($ticker) {
+    $result = $this->getItems(['tickerCode' => $ticker]);
+    $output = array_shift($result);
     return $output;
   }
 

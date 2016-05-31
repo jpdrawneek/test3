@@ -38,7 +38,7 @@ class CompanyDetailsTest extends \PHPUnit_Framework_TestCase {
    "storyFeedUrl" => "http://mm-recruitment-story-feed-api.herokuapp.com/1234"]
     );
     $app['NewsEndpoint'] = m::mock('\MergemarketTest\EndPoint\News');
-    $app['NewsEndpoint']->shouldReceive('getById')->withArgs(['1234'])->once()->andReturn(
+    $app['NewsEndpoint']->shouldReceive('getStoryFeedUrl')->withArgs(['http://mm-recruitment-story-feed-api.herokuapp.com/1234'])->once()->andReturn(
         [
     (object)[
         "id" => 1,
@@ -55,5 +55,8 @@ class CompanyDetailsTest extends \PHPUnit_Framework_TestCase {
     $this->object = new CompanyDetails($app['TickerCode'], $app['StockEndpoint'], $app['NewsEndpoint']);
     $result = $this->object->getCompanyDetail('code1');
     $this->assertInstanceOf('MergemarketTest\Data\CompanyDetail', $result, 'Should have returned a object of CompanyDetail');
+    $this->assertEquals('test1', $result->name);
+    $this->assertEquals('54407', $result->price);
+    $this->assertEquals(2, count($result->latestNews));
   }
 }

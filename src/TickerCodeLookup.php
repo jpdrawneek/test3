@@ -29,4 +29,9 @@ class TickerCodeLookup {
     return $output;
   }
 
+  public function getByTicker($ticker) {
+    // Caching could go in here.
+    $output = $this->endPoint->getByTicker($ticker);
+    return $output;
+  }
 }

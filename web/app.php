@@ -25,7 +25,6 @@ $app['TickerCode'] = function () use ($app) {
 
 $app->get('/', function () use ($app) {
   $data = $app['TickerCode']->getList();
-  print '<pre>' . print_r($data, TRUE) . '</pre>';
     return $app['twig']->render('index.html.twig', ['list' => $data]);
 });
 
