@@ -32,7 +32,13 @@ class CompanyDetail {
     }
     return $output;
   }
-  
+  /**
+   * Return the sentiment analysis value for the news item.
+   * @todo Roll this up into a News Item object to better abstract it if more processing is required.
+   *
+   * @param \stdClass $newsItem
+   * @return string
+   */
   public function calculatePositivity(\stdClass $newsItem) {
     $positiveWords = ['positive', 'success', 'grow', 'gains', 'happy', 'healthy'];
     $negativeWords = ['disappointing', 'concerns', 'decline', 'drag', 'slump', 'feared'];
