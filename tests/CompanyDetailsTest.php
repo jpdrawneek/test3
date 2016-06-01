@@ -56,7 +56,7 @@ class CompanyDetailsTest extends \PHPUnit_Framework_TestCase {
     $result = $this->object->getCompanyDetail('code1');
     $this->assertInstanceOf('MergemarketTest\Data\CompanyDetail', $result, 'Should have returned a object of CompanyDetail');
     $this->assertEquals('test1', $result->name);
-    $this->assertEquals('54407', $result->price);
+    $this->assertEquals('54407p', $result->price);
     $this->assertEquals(2, count($result->latestNews));
   }
 }

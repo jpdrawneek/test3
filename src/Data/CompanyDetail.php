@@ -17,7 +17,7 @@ class CompanyDetail {
   public function __construct(TickerCode $ticket, \stdClass $stock, array $news) {
     $this->name = $ticket->companyName;
     $this->symbol = $ticket->companyTicker;
-    $this->price = $stock->latestPrice;
+    $this->price = $this->fixCurrency($stock->latestPrice, $stock->priceUnits);
     $this->latestNews = $this->sortNews($news);
   }
   
@@ -31,7 +31,29 @@ class CompanyDetail {
     }
     return $output;
   }
+  
+  public function calculatePositivity(\stdClass $newsItem) {
+    return 'none';
+  }
 
+  /**
+   * Simple switch to handle basic cases.
+   * @todo If more currencies used expand out into using libraries.
+   *
+   * @param string $value
+   * @param string $currency
+   * @return string
+   */
+  public function fixCurrency($value, $currency) {
+    switch ($currency) {
+      case 'GBP:pence':
+        $output = $value . 'p';
+        break;
+      default:
+        $output = $value . ' ' . $currency;
+    }
+    return $output;
+  }
 
   public function __get($name) {
     return $this->$name;
