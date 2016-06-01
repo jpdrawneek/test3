@@ -26,6 +26,7 @@ class CompanyDetail {
     for ($x=0; $x< 2; $x++) {
       $item = array_shift($news);
       if (isset($item)) {
+        $item->sentimentAnalysis = $this->calculatePositivity($item);
         $output[] = $item;
       }
     }
@@ -33,7 +34,29 @@ class CompanyDetail {
   }
   
   public function calculatePositivity(\stdClass $newsItem) {
-    return 'none';
+    $positiveWords = ['positive', 'success', 'grow', 'gains', 'happy', 'healthy'];
+    $negativeWords = ['disappointing', 'concerns', 'decline', 'drag', 'slump', 'feared'];
+    $searchString = preg_replace("/[^A-Za-z0-9 ]/", '', $newsItem->headline . ' ' . $newsItem->body);
+    $textToCount = explode(' ', $searchString);
+    $words = array_count_values($textToCount);
+    $total = 0;
+    foreach ($positiveWords AS $word) {
+      if (isset($words[$word])) {
+        $total += $words[$word];
+      }
+    }
+    foreach ($negativeWords AS $word) {
+      if (isset($words[$word])) {
+        $total -= $words[$word];
+      }
+    }
+    if ( $total > 1) {
+      return 'positive';
+    } elseif ($total < 0) {
+      return 'negative';
+    } else {
+      return 'neutral';
+    }
   }
 
   /**

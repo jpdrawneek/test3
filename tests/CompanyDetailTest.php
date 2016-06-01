@@ -35,13 +35,14 @@ class CompanyDetailTest extends \PHPUnit_Framework_TestCase {
   }
   
   public function testSetPositivity() {
-    $tickerCode = m::mock('\MergemarketTest\TickerCodeLookup');
+    $tickerCode = m::mock('\MergemarketTest\Data\TickerCode');
     $newsItems = [
         (object)["id" => 1,
         "headline" => "Make up a positive headline",
         "body" => "Body with enough words to trigger positive sentiment analysis"]
     ];
-    $object = new CompanyDetail($tickerCode, new \stdClass(), $newsItems);
+    $mockStock = (object)['latestPrice' => 1234, 'priceUnits' => 'ZXX:stuff'];
+    $object = new CompanyDetail($tickerCode, $mockStock, $newsItems);
     $this->assertEquals('positive', $object->latestNews[0]->sentimentAnalysis);
   }
   
