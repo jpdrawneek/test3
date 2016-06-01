@@ -10,7 +10,11 @@ namespace MergemarketTest\EndPoint;
 class News extends GetJson {
   
    public function getStoryFeedUrl($uri) {
-     $return = $this->doRequest($uri);
-     return json_decode($return);
+    if (filter_var($uri, FILTER_VALIDATE_URL) !== FALSE) {
+      $return = $this->doRequest($uri);
+      return json_decode($return);
+    } else {
+      return [];
+    }
    }
 }
